@@ -1,10 +1,21 @@
+#ifdef WIN32
 #include <windows.h>
+#endif
+
 #include <iostream>
 #define GLFW_INCLUDE_GL_3
+
+#ifdef __APPLE__
+#include <GLUT/glut.h>
+#include <OpenGL/gl.h>
+#include <OpenGL/glu.h>
+#else
 #include <GL/glew.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GLFW/glfw3.h>
+#endif
+
 #include "board.h"
 #include "world.h"
 

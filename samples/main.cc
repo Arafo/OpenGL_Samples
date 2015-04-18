@@ -3,17 +3,16 @@
 #endif
 
 #include <iostream>
+//#include <GL/glew.h>
 #define GLFW_INCLUDE_GL_3
+#include <GLFW/glfw3.h>
 
 #ifdef __APPLE__
-#include <GLUT/glut.h>
 #include <OpenGL/gl.h>
 #include <OpenGL/glu.h>
 #else
-#include <GL/glew.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
-#include <GLFW/glfw3.h>
 #endif
 
 #include "board.h"
@@ -35,7 +34,11 @@ int main(int argc,char* argv[])
 
 	glfwWindowHint(GLFW_CLIENT_API,GLFW_OPENGL_API);
 #if 1
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR,3);
+    #ifdef __APPLE__
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR,2);
+    #else
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR,3);
+    #endif
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR,0);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT,GL_FALSE);
 #else
@@ -49,7 +52,7 @@ int main(int argc,char* argv[])
 
 	win = glfwCreateWindow(512,512,"OGL Application",NULL,NULL);
 	if (!win)
-		return 0;
+		return 1;
 
 	ogl_init(win);
 

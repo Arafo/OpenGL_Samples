@@ -16,19 +16,6 @@
 
 using namespace std;
 
-static float vtx[][2] = {
-	{-0.5f, -0.5f},
-	{ 0.5f, -0.5f},
-	{ 0.5f,  0.5f},
-	{-0.5f,  0.5f}
-};
-static float clr[][3] = {
-	{1.0f, 0.0f, 0.0f},
-	{0.0f, 1.0f, 0.0f},
-	{0.0f, 0.0f, 1.0f},
-	{1.0f, 1.0f, 1.0f}
-};
-
 GLUquadricObj *quadric;
 
 void world_init()

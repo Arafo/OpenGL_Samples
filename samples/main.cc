@@ -78,7 +78,7 @@ void ogl_init(GLFWwindow* win)
 	cout << "SL Version: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << endl;
 	cout << flush;
 
-	world_init();
+	//world_init();
 	board_init();
 }
 
@@ -86,14 +86,14 @@ void ogl_reshape(GLFWwindow* win,int width,int height)
 {
 	cout << "reshape" << endl;
 	glfwMakeContextCurrent(win);
-	world_reshape(width,height);
+	//world_reshape(width,height);
 }
 
 void ogl_display(GLFWwindow* win)
 {
 	cout << "display" << endl;
 	glfwMakeContextCurrent(win);
-	world_display();
+	//world_display();
 	board_display();
 
 	glfwSwapBuffers(win);

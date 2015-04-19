@@ -9,6 +9,7 @@
 #include <OpenGL/gl.h>
 #include <OpenGL/glu.h>
 #else
+//#include <GL/freeglut.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
 #endif
@@ -16,7 +17,6 @@
 #include "board.h"
 
 void cuadro();
-void drawSnowMan();
 
 void board_init() 
 {
@@ -34,7 +34,7 @@ void board_reshape(int w, int h)
 void board_display()
 {
     // angle of rotation for the camera direction
-    float x, z, lx, lz;
+    float x = 0, z = 0, lx = 0, lz = 0;
     // Clear Color and Depth Buffers
     
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -60,7 +60,7 @@ void board_display()
 		for(int j=-3; j < 3; j++) {
 			glPushMatrix();
 			glTranslatef(i*1.0,0,j * 2.0);
-			drawSnowMan();
+			//drawSnowMan();
 			glPopMatrix();
 		}
     }
@@ -105,30 +105,4 @@ void cuadro()
     glVertex3f(1.5f,0.3f,-1.5f);
     glVertex3f(0.0f,0.3f,-1.5f);
     glEnd();
-}
-
-void drawSnowMan() 
-{
- 	glColor3f(1.0f, 1.0f, 1.0f);
-    
-    // Draw Body
-	glTranslatef(0.0f ,0.75f, 0.0f);
-	glutSolidSphere(0.75f,20,20);
-    
-    // Draw Head
-	glTranslatef(0.0f, 1.0f, 0.0f);
-	glutSolidSphere(0.25f,20,20);
-    
-    // Draw Eyes
-	glPushMatrix();
-	glColor3f(0.0f,0.0f,0.0f);
-	glTranslatef(0.05f, 0.10f, 0.18f);
-	glutSolidSphere(0.05f,10,10);
-	glTranslatef(-0.1f, 0.0f, 0.0f);
-	glutSolidSphere(0.05f,10,10);
-	glPopMatrix();
-    
-    // Draw Nose
-	glColor3f(1.0f, 0.5f , 0.5f);
-	glutSolidCone(0.08f,0.5f,10,2);   
 }

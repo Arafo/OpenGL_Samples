@@ -7,6 +7,7 @@
 //#include <GL/glew.h>
 #define GLFW_INCLUDE_GL_3
 #include <GLFW/glfw3.h>
+#include <math.h>
 
 #ifdef __APPLE__
 #include <OpenGL/gl.h>
@@ -29,6 +30,8 @@ void mouse(GLFWwindow* win,int but,int act,int mod);
 void motion(GLFWwindow* win,double x,double y);
 
 using namespace std;
+
+float z=0.0f, x=2.0f,y=0.0f;
 
 int main(int argc,char* argv[])
 {
@@ -97,7 +100,7 @@ void ogl_display(GLFWwindow* win)
 	cout << "display" << endl;
 	glfwMakeContextCurrent(win);
 	//world_display();
-	board_display();
+	board_display(x, y, z);
 
 	glfwSwapBuffers(win);
 }
@@ -108,6 +111,8 @@ void keyboard(GLFWwindow* win,int key,int s,int act,int mod)
 		return;
 
 	cout << "key " << char(key) << endl;
+    
+    float fraction = 0.5f;
 
 	switch (key)
 	{
@@ -115,6 +120,18 @@ void keyboard(GLFWwindow* win,int key,int s,int act,int mod)
 		case GLFW_KEY_ESCAPE:
 			glfwSetWindowShouldClose(win,GL_TRUE);
 			break;
+        case GLFW_KEY_LEFT:
+            x = x - fraction;
+            break;
+        case GLFW_KEY_RIGHT:
+            x = x + fraction;
+            break;
+        case GLFW_KEY_UP:
+            z = z + fraction;
+            break;
+        case GLFW_KEY_DOWN:
+            z = z - fraction;
+            break;
 		default:
 			break;
 	}

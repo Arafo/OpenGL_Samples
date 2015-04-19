@@ -33,14 +33,19 @@ void board_reshape(int w, int h)
 
 }
 
-void board_display()
+void board_display(float x, float y, float z)
 {
     
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 	glLoadIdentity();
-	gluLookAt(	2.0f, 2.0f, -2.0f,
-              0.0, 0.0f,  0.0f,
+	gluLookAt(2.0f, 1.0f, 0.0f,
+              x, y,  z,
               0.0f, 1.0f,  0.0f);
+    
+    std::cout << "x:" << x << std::endl;
+    std::cout << "y:" << y << std::endl;
+    std::cout << "z:" << z << std::endl;
     
     // Suelo
 	glColor3f(0.9f, 0.9f, 0.9f);
@@ -55,12 +60,12 @@ void board_display()
 	{
 		glPushMatrix();
 		// Trasladar a la fila
-        glTranslatef(0.0f, i*0.5f, 0);
+        glTranslatef(0.0f, 0.0f, -i*0.5f);
 		for (int j = 0; j < 8; j++)
 		{
 			glPushMatrix();
 			// Trasladar a la columna
-            glTranslatef(j*0.5f, 0.0f, 0);
+            glTranslatef(j*0.5f, 0.0f, 0.0f);
 			if ((i + j) % 2)
 				// Color verde
 				glColor3f(0.0, 1.0, 0.0);
@@ -72,7 +77,6 @@ void board_display()
 		}
 		glPopMatrix();
 	}
-
 }
 
 void board_clean() 
@@ -83,9 +87,9 @@ void board_clean()
 void cuadro() 
 {
     glBegin(GL_QUADS);
-    glVertex3f(0.0f,0.0f,-0.5f); // Vertice inferior izquierdo
-    glVertex3f(0.5f,0.0f,-0.5f); // Vertice inferior derecho
-    glVertex3f(0.5f,0.5f,-0.5f); // Vertice superior derecho
-    glVertex3f(0.0f,0.5f,-0.5f); // Vertice superior izquierdo
+    glVertex3f(0.0f,0.0f,0.0f); // Vertice inferior izquierdo
+    glVertex3f(0.5f,0.0f,0.0f); // Vertice inferior derecho
+    glVertex3f(0.5f,0.5f,0.0f); // Vertice superior derecho
+    glVertex3f(0.0f,0.5f,0.0f); // Vertice superior izquierdo
     glEnd();
 }

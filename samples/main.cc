@@ -88,6 +88,7 @@ void ogl_reshape(GLFWwindow* win,int width,int height)
 {
 	cout << "reshape" << endl;
 	glfwMakeContextCurrent(win);
+    board_reshape(width, height);
 	//world_reshape(width,height);
 }
 

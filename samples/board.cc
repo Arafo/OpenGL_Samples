@@ -40,8 +40,9 @@ void board_display(float x, float y, float z)
 
 	glLoadIdentity();
 	gluLookAt(2.0f, 1.0f, 0.0f,
-              x, y,  z,
+              x, -2.0f,  z,
               0.0f, 1.0f,  0.0f);
+     
     
     std::cout << "x:" << x << std::endl;
     std::cout << "y:" << y << std::endl;
@@ -89,7 +90,7 @@ void cuadro()
     glBegin(GL_QUADS);
     glVertex3f(0.0f,0.0f,0.0f); // Vertice inferior izquierdo
     glVertex3f(0.5f,0.0f,0.0f); // Vertice inferior derecho
-    glVertex3f(0.5f,0.5f,0.0f); // Vertice superior derecho
-    glVertex3f(0.0f,0.5f,0.0f); // Vertice superior izquierdo
+    glVertex3f(0.5f,0.0f,-0.5f); // Vertice superior derecho
+    glVertex3f(0.0f,0.0f,-0.5f); // Vertice superior izquierdo
     glEnd();
 }

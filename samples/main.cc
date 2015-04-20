@@ -31,7 +31,7 @@ void motion(GLFWwindow* win,double x,double y);
 
 using namespace std;
 
-float z=0.0f, x=2.0f,y=0.0f;
+float z=0.0f, x=1.0f,y=0.0f;
 
 int main(int argc,char* argv[])
 {

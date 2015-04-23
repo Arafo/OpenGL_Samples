@@ -40,13 +40,46 @@ void board_reshape(int w, int h)
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(-1, 1, -1, 1, -1, 1);
+    glFrustum(-2, 2, -1.5, 1.5, 1, 40);
 	glMatrixMode(GL_MODELVIEW);
 
 }
 
-void board_display(float x, float y, float z)
+void board_display(float x, float y, float z, int doHSR)
 {
+    if (doHSR) {
+        glPolygonMode(GL_FRONT_AND_BACK,GL_FILL); 
+        //gluQuadricDrawStyle(quadric,GLU_FILL);
+        glEnable(GL_DEPTH_TEST);
+        glEnable(GL_LIGHTING);
+        glEnable(GL_COLOR_MATERIAL);
+
+    }
+    else {
+        glPolygonMode(GL_FRONT_AND_BACK,GL_LINE); 
+        //gluQuadricDrawStyle(quadric,GLU_LINE); 
+        glDisable(GL_DEPTH_TEST);
+        glDisable(GL_LIGHTING);
+        glDisable(GL_COLOR_MATERIAL);
+        
+    }
+    GLfloat light_color [4] = {0.2 ,0.2 ,1.0 ,1.0}; 
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_color ); 
+    glLightfv(GL_LIGHT0, GL_SPECULAR, light_color );
+    glEnable(GL_NORMALIZE);
+    glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 20); 
+    glLightf(GL_LIGHT0, GL_SPOT_EXPONENT, 5);
+    glShadeModel(GL_SMOOTH);
     
+    
+    float m_diff [4] = {0.6 ,0.6 ,0.6 ,1}; 
+    float m_spec [4] = {0.4 ,0.4 ,0.4 ,1}; 
+    float m_n = 50;
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, m_diff ); 
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, m_spec ); 
+    glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, m_n);
+    //gluQuadricOrientation(quadric, GLU_OUTSIDE); // o GLU INSIDE 
+    //gluQuadricNormals(quadric, GLU_SMOOTH ) ;
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glLoadIdentity();
@@ -99,6 +132,7 @@ void board_display(float x, float y, float z)
     peon(0, 0);
     peon(2, 2);
     peon(0, 1);
+    peon(7, 7);
 }
 
 void board_clean() 
@@ -119,6 +153,8 @@ void cuadro()
 void peon(int x, int y) 
 {    
     GLUquadric *quadric = gluNewQuadric();
+    gluQuadricNormals(quadric, GLU_FLAT);
+    
     glColor3f(0.0f, 0.0f, 1.0f);
     
 	glPushMatrix();
@@ -130,10 +166,10 @@ void peon(int x, int y)
     
     // Disco inferior
     glTranslated(0.0f, 0.0f, 0.4f);
-    gluDisk(quadric, 0, 1.1f, 20, 1);
+    gluDisk(quadric, 0, 1.1f, 20, 20);
     
     // Cono
-    glTranslatef(0.0f ,0.0f, 0.4f);
+    //glTranslatef(0.0f ,0.0f, 0.4f);
     gluCylinder(quadric, 1.0f, 0.3f, 1.0f, 20, 20);
     
     // Cilindro central
@@ -151,4 +187,5 @@ void peon(int x, int y)
     gluDisk(quadric, 0, 0.6f, 20, 20);
     
 	glPopMatrix();
+    
 }

@@ -32,6 +32,7 @@ void motion(GLFWwindow* win,double x,double y);
 using namespace std;
 
 float z=0.0f, x=1.0f,y=0.0f;
+int doHSR = 1;
 
 int main(int argc,char* argv[])
 {
@@ -55,7 +56,7 @@ int main(int argc,char* argv[])
 
 	GLFWwindow* win;
 
-	win = glfwCreateWindow(512,512,"OGL Application",NULL,NULL);
+	win = glfwCreateWindow(800 ,600,"OGL Application",NULL,NULL);
 	if (!win)
 		return 1;
 
@@ -100,7 +101,7 @@ void ogl_display(GLFWwindow* win)
 	cout << "display" << endl;
 	glfwMakeContextCurrent(win);
 	//world_display();
-	board_display(x, y, z);
+	board_display(x, y, z, doHSR);
 
 	glfwSwapBuffers(win);
 }
@@ -131,6 +132,10 @@ void keyboard(GLFWwindow* win,int key,int s,int act,int mod)
             break;
         case GLFW_KEY_DOWN:
             z = z - fraction;
+            break;
+        case GLFW_KEY_ENTER:
+            if (doHSR == 0) doHSR = 1;
+            else doHSR = 0;
             break;
 		default:
 			break;

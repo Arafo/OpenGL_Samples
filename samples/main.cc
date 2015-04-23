@@ -31,7 +31,7 @@ void motion(GLFWwindow* win,double x,double y);
 
 using namespace std;
 
-float z=0.0f, x=1.0f,y=0.0f;
+float z=2.0f, x=12.0f,y=4.0f;
 int doHSR = 1;
 
 int main(int argc,char* argv[])
@@ -113,7 +113,7 @@ void keyboard(GLFWwindow* win,int key,int s,int act,int mod)
 
 	cout << "key " << char(key) << endl;
     
-    float fraction = 0.5f;
+    float fraction = 1.0f;
 
 	switch (key)
 	{
@@ -132,6 +132,12 @@ void keyboard(GLFWwindow* win,int key,int s,int act,int mod)
             break;
         case GLFW_KEY_DOWN:
             z = z - fraction;
+            break;
+        case GLFW_KEY_SPACE:
+            y = y + fraction;
+            break;
+        case GLFW_KEY_RIGHT_ALT:
+            y = y - fraction;
             break;
         case GLFW_KEY_ENTER:
             if (doHSR == 0) doHSR = 1;

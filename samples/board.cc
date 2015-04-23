@@ -52,6 +52,7 @@ void board_display(float x, float y, float z, int doHSR)
         //gluQuadricDrawStyle(quadric,GLU_FILL);
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_LIGHTING);
+        glEnable(GL_LIGHT0);
         glEnable(GL_COLOR_MATERIAL);
 
     }
@@ -63,44 +64,40 @@ void board_display(float x, float y, float z, int doHSR)
         glDisable(GL_COLOR_MATERIAL);
         
     }
-    GLfloat light_color [4] = {0.2 ,0.2 ,1.0 ,1.0}; 
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_color ); 
-    glLightfv(GL_LIGHT0, GL_SPECULAR, light_color );
+
     glEnable(GL_NORMALIZE);
-    glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 20); 
-    glLightf(GL_LIGHT0, GL_SPOT_EXPONENT, 5);
+    //glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 20); 
+    //glLightf(GL_LIGHT0, GL_SPOT_EXPONENT, 5);
     glShadeModel(GL_SMOOTH);
     
-    
-    float m_diff [4] = {0.6 ,0.6 ,0.6 ,1}; 
-    float m_spec [4] = {0.4 ,0.4 ,0.4 ,1}; 
-    float m_n = 50;
-    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, m_diff ); 
-    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, m_spec ); 
-    glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, m_n);
     //gluQuadricOrientation(quadric, GLU_OUTSIDE); // o GLU INSIDE 
     //gluQuadricNormals(quadric, GLU_SMOOTH ) ;
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glLoadIdentity();
-	gluLookAt(x, 2.0f, z,
-              1.0f, 0.0f, -1.0f,
-              0.0f, 1.0f,  0.0f);     
+    
+    // Camara en el origen de coordenadas
+//	gluLookAt(x, 2.0f, z,
+//              1.0f, 0.0f, -1.0f,
+//              0.0f, 1.0f,  0.0f);     
+    gluLookAt(x, y, z,
+              12.0f, 0.0f, -6.0f,
+              0.0f, 1.0f,  0.0f); 
     
     std::cout << "x:" << x << std::endl;
     std::cout << "y:" << y << std::endl;
     std::cout << "z:" << z << std::endl;
     
-    glClear(GL_COLOR_BUFFER_BIT);
+    //glClear(GL_COLOR_BUFFER_BIT);
     
     // Suelo
-    glColor3f(1.0, 1.0, 1.0);
-    glBegin(GL_LINES);
-    for (GLfloat i = -3; i <= 3*8; i += 0.3) {
-        glVertex3f(i, 0, 3.0f); glVertex3f(i, 0, -3.0f);
-        glVertex3f(3.0f, 0, i); glVertex3f(-3.0f, 0, i);
-    }
-    glEnd();
+//    glColor3f(1.0, 1.0, 1.0);
+//    glBegin(GL_LINES);
+//    for (GLfloat i = -3; i <= 3*8; i += 0.3) {
+//        glVertex3f(i, 0, 3.0f); glVertex3f(i, 0, -3.0f);
+//        glVertex3f(3.0f, 0, i); glVertex3f(-3.0f, 0, i);
+//    }
+//    glEnd();
     
     //int max_peones = 8;
     //int peones = 0;
@@ -158,6 +155,22 @@ void peon(int x, int y)
     glColor3f(0.0f, 0.0f, 1.0f);
     
 	glPushMatrix();
+    
+    float m_diff [4] = {0.6 ,0.6 ,0.6 ,1}; 
+    float m_spec [4] = {0.4 ,0.4 ,0.4 ,1}; 
+    float m_n = 50;
+    
+    GLfloat light_color [4] = {0.2 ,0.2 ,1.0 ,1.0}; 
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_color ); 
+    glLightfv(GL_LIGHT0, GL_SPECULAR, light_color );
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, m_diff ); 
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, m_spec ); 
+    glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, m_n);
+    
+//    GLfloat light_color [4] = {0.2 ,0.2 ,1.0 ,1.0}; 
+//    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_color ); 
+//    glLightfv(GL_LIGHT0, GL_SPECULAR, light_color );
+    
     glTranslated(x*3.0f + 1.5f, 0.0f, y*3.0f - 1.5f);
     glRotated(-90.0f, 1, 0, 0);
     
@@ -165,11 +178,15 @@ void peon(int x, int y)
     gluCylinder(quadric, 1.25f, 1.25f, 0.4f, 20, 20);
     
     // Disco inferior
+    glPushMatrix();
     glTranslated(0.0f, 0.0f, 0.4f);
-    gluDisk(quadric, 0, 1.1f, 20, 20);
+    gluDisk(quadric, 0, 1.25f, 20, 20); // Tapa de la base
+    glScalef(1.0f, 1.0f, 0.33f);
+    gluSphere(quadric, 1.1f, 20, 20);
+    glPopMatrix();
     
     // Cono
-    //glTranslatef(0.0f ,0.0f, 0.4f);
+    glTranslatef(0.0f ,0.0f, 0.4f);
     gluCylinder(quadric, 1.0f, 0.3f, 1.0f, 20, 20);
     
     // Cilindro central
@@ -177,15 +194,17 @@ void peon(int x, int y)
     gluCylinder(quadric, 0.3f, 0.3f, 1.5f, 20, 20);
     
     // Cabeza
+    glPushMatrix();
     glRotated(90.0f, 1, 0, 0);
     glTranslatef(0.0f, 1.5f, 0.0f);
     gluSphere(quadric, 0.6f, 20, 20);
+    glPopMatrix();
     
     // Disco superior
-    glRotated(-90.0f, 1, 0, 0);
-    glTranslatef(0.0f, 0.0f, -0.6f);
-    gluDisk(quadric, 0, 0.6f, 20, 20);
-    
+    glTranslatef(0.0f, 0.0f, 0.9f);
+    glScalef(1.0f, 1.0f, 0.24f);
+    gluSphere(quadric, 0.6f, 20, 20);
+
 	glPopMatrix();
     
 }
